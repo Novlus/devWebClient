@@ -1,0 +1,1 @@
+Jamais de requete synchrone en js 
