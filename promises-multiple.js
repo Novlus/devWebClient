@@ -20,35 +20,35 @@ let collectFund = () => {
 }
 
 
-let buyConsole = () => {
+let buyConsole = (message) => {
     return new Promise(function (resolve, reject) {
         // passe l'étape ou on gère l'événnement
 
         consoleBaught = true;
 
         if (consoleBaught) {
-            resolve("Console achetée");
+            resolve(message + "\nConsole achetée");
         }
 
         else {
-            reject("Pas encore achetée");
+            reject(message + "\nPas encore achetée");
         }
 
     })
 }
 
-let playPacman = () => {
+let playPacman = (message) => {
     return new Promise(function (resolve, reject) {
         // passe l'étape ou on gère l'événnement
 
-        didIPlay = true;
+        didIPlay = false;
 
         if (didIPlay) {
-            resolve("Yes 8ème niveau atteint");
+            resolve(message + "\nYes 8ème niveau atteint");
         }
 
         else {
-            reject("Non j'ai un TP à finir");
+            reject(message + "\nNon j'ai un TP à finir");
         }
 
     })
@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // les promises sont dépendantes les unes des autres, elles s'exécutent dans l'ordre au fur et à mesure qu'elles se terminent.
     collectFund()
         .then(result => {
-            console.log(result);
-            return buyConsole();
+            //console.log(result);
+            return buyConsole(result);
         })
         .then(result => {
-            console.log(result);
-            return playPacman();
+            //console.log(result);
+            return playPacman(result);
         })
         .then(result => {
             console.log(result);
