@@ -1,0 +1,17 @@
+body {
+    background-image: url("Une-nuage.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    color: grey;
+}
+
+#h3Consigne {
+    color: grey;
+}
+
+#pConsigne {
+    color: grey;
+}
