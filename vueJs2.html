@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Nouvelle exercice vueJS</title>
+    
+</head>
+<body>
+    <div id="container">
+        <h1>La section computed</h1>
+        <h2>Variable calculées</h2>
+
+        <input type="text" v-model="name" placeholder="Name">
+        &nbsp;
+        <input type="text" v-model="surName" placeholder="Lastname">
+
+        <p> Le nom complet est : {{fullName}}  </p>
+
+       <table class="table table-striped">
+              <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Field</th>
+              </tr>
+              <tr v-for="experiment in experiments">
+                <td>{{experiment.name}}</td>
+                <td>{{experiment.cost}}</td>
+                <td>{{experiment.field}}</td>
+              </tr>
+       </table>
+
+       <h4> Les expériences physique sont :</h4>
+
+
+       <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Cost</th>
+                    <th>Field</th>
+                </tr>
+                <tr v-for="experiment in filteredExperiments">
+                    <td>{{experiment.name}}</td>
+                    <td>{{experiment.cost}}</td>
+                    <td>{{experiment.field}}</td>
+                </tr>
+            </table>
+            <h4>Filtrer les expériences avec le champ field en utilisant un select</h4>
+                <!-- faire un select qui servira a récupérer la valeur pour le choix du field -->
+                <select v-model="selected" class="form-select" id="select1">
+                    <option disabled value ="">Choisissez une option</option>
+                    <option value="Physique">Physique</option>
+                    <option value="Biologie">Biologie</option>
+                    <option value="Psychologie">Psychologie</option>
+                </select>
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Cost</th>
+                        <th>Field</th>
+                    </tr>
+                    <tr v-for="experiment in filteredExperimentsFieldWithSelect">
+                        <td>{{experiment.name}}</td>
+                        <td>{{experiment.cost}}</td>
+                        <td>{{experiment.field}}</td>
+                    </tr>
+                </table>
+
+        <h4>Filtrer les expériences avec le champ Cost en utilisant un select</h4>
+
+        <select v-model="selectedCost" class="form-select" id="select2">
+            <option disabled value ="">Choisissez une option</option>
+            <option value="superior to 100">superior to 100</option>
+            <option value="inferior to 100">inferior to 100</option>
+        </select>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Field</th>
+            </tr>
+            
+            <tr v-if= "selectedCost === 'superior to 100'" v-for="experiment in filteredExperimentsCostSupTo100WithSelect">
+                <td>{{experiment.name}}</td>
+                <td>{{experiment.cost}}</td>
+                <td>{{experiment.field}}</td>
+            </tr>
+
+            <tr v-if= "selectedCost === 'inferior to 100'" v-for="experiment in  filteredExperimentsCostInfTo100WithSelect">
+                <td>{{experiment.name}}</td>
+                <td>{{experiment.cost}}</td>
+                <td>{{experiment.field}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script>
+        var myVueApp = ({
+            data() {
+                return {
+                    name: "",
+                    surName: "",
+                    experiments: [
+                        {name: "Accélérateur d'Ions RHIC", cost: 650, field: "Physique"},
+                        {name: "Observatoire sous-marin Neptune", cost: 100, field: "Biologie"},
+                        {name: "Violoniste dans le métro", cost: 2, field: "Psychologie"},
+                        {name: "Accélérateur de particules", cost: 7700, field: "Physique"},
+                        {name: "Détecteur de particules", cost: 150, field: "Physique"},
+                        {name: "Mission de sauvetage des tortues", cost: 125, field: "Biologie"}
+                    ],
+                    selected: "",
+                    selectedCost: "",
+                    
+                }
+            },
+            methods: {
+    
+            },
+            computed: { // emplacement où l'on effectue les calculs à réaliser quand l'événement onDOMready est ok.
+                fullName() {
+                    // cette fonction retourne une valeur calculée à partir d'autres variables.
+                    return this.name + " " + this.surName;
+                },
+               
+                filteredExperiments() {
+                    //filtre les expériences pour garder seulement  le field "physique"
+                    return this.experiments.filter(experiment => experiment.field === "Physique");
+                },
+
+                filteredExperimentsFieldWithSelect(){
+                    //filtre les expériences en fonction du choix du field dans le select
+                    return this.experiments.filter(experiment => experiment.field === this.selected);
+    
+                },
+                filteredExperimentsCostSupTo100WithSelect(){
+                    //filtre les expériences en fonction du choix du cost dans le select
+                    return this.experiments.filter(experiment => experiment.cost > 100);
+
+                },
+                filteredExperimentsCostInfTo100WithSelect(){
+                    //filtre les expériences en fonction du choix du cost dans le select
+                    return this.experiments.filter(experiment => experiment.cost < 100);
+
+                }
+                
+            }}
+        )
+    
+    
+        Vue.createApp(myVueApp).mount('#container');
+    </script>
+    
+</body>
+</html>

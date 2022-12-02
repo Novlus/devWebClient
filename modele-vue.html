@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>suite vueJS</title>
+
+    <style>
+        .task-complete
+        {
+            color: darkgray;
+            text-decoration: line-through;
+        }
+        .istrue {
+            color: darkgreen
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="container">
+        <h1>Gestion d'une liste de tâche</h1>
+
+        <h2>Liste de toutes les tâches</h2>
+
+        <ul>
+            <li v-for="task in tasks">
+                <span v-bind:class="task-completed?'task-complete':''" >{{task.description}} </span>
+                 - {{taskComplete(task)}}
+            </li>
+
+        </ul>
+
+        <p> Ajouter un style texte gris barré pour chaque tache complétée et remplacez true par fait</p>
+
+    </div>
+
+    <script>
+        var myVueApp = ({
+            data() {
+                return {
+                    tasks: [
+                        {description: 'Faire les courses', completed: false},
+                        {description: 'Terminer cet exercice', completed: false},
+                        {description: 'Faire un don sur Ulule', completed: false},
+                        {description: 'Faire le ménage', completed: true},
+                        {description: 'Faire la lessive', completed: true},
+                        {description: 'Faire le repassage', completed: true}
+                    ],
+                    variable:'',
+                    
+                    
+                }
+            },
+            methods: {  
+                variableTrueFalse()
+                {
+                    
+                }
+                //function qui change la valeur de variable en fonction de la valeur de completed
+
+
+            },
+            computed: { // emplacement où l'on effectue les calculs à réaliser quand l'événement onDOMready est ok.
+                
+                
+            }}
+        )
+    
+    
+        Vue.createApp(myVueApp).mount('#container');
+    </script>
+    
+</body>
+</html>

@@ -76,4 +76,29 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(error);
         })
 
-})
+    //on Veut excuter toutes les promises en parallele et elles doivent toutes etre satisfaites
+
+    Promise.all([collectFund(), buyConsole(), playPacman()])
+        .then(() => {
+            console.log("All task (promises) finished");
+        })
+        .catch(() => {
+            console.log("At least one task or more didn't finish");
+        })
+
+    //on Veut excuter toutes les promises en parallele et une d'entre elle doite etre satisfaite
+
+    Promise.race([collectFund(), buyConsole(), playPacman()])
+        .then(() => {
+            console.log("At least one task or more finished");
+        }
+        )
+        .catch(() => {
+            console.log("None of the task(promises) finished");
+        })
+
+
+});
+
+
+
