@@ -16,8 +16,9 @@
             text-decoration: line-through;
         }
         .istrue {
-            color: darkgreen
+            color: lawngreen;
         }
+       
     </style>
     
 </head>
@@ -27,15 +28,21 @@
 
         <h2>Liste de toutes les tâches</h2>
 
+        <button v-on:click="toggleFilterListe">{{filterButtonText}}</button>
+
         <ul>
-            <li v-for="task in tasks">
-                <span v-bind:class="task-completed?'task-complete':''" >{{task.description}} </span>
-                 - {{taskComplete(task)}}
+            <li v-for="task in filterTaskList">
+                <input type="checkbox" id="checkbox" v-model="task.completed" />
+                <span v-bind:class=" task.completed ?'task-complete':''" >{{task.description}} </span>
+                 -<span v-bind:class ="{'istrue' : task.completed}">{{task.completed ? 'Fait':'A faire'}}</span>
+                 
             </li>
 
         </ul>
 
         <p> Ajouter un style texte gris barré pour chaque tache complétée et remplacez true par fait</p>
+        <p> Ajouter un bouton ou une case à cocher devant chaque élément pour compléter / décompléter la tache</p>
+        <p>- Ajouter un bouton au sessus de la liste pour masquer les taches complétée (filtrer le tableau)</p>
 
     </div>
 
@@ -51,23 +58,38 @@
                         {description: 'Faire la lessive', completed: true},
                         {description: 'Faire le repassage', completed: true}
                     ],
-                    variable:'',
+                    filterListe: false,
+                    filterButtonText:"Masquer les tâches complétées"
                     
                     
                 }
             },
             methods: {  
-                variableTrueFalse()
-                {
+                toggleFilterListe() {
+                    //toggle le masquage des taches
+                    this.filterListe = !this.filterListe;
                     
                 }
+                
                 //function qui change la valeur de variable en fonction de la valeur de completed
 
 
             },
             computed: { // emplacement où l'on effectue les calculs à réaliser quand l'événement onDOMready est ok.
                 
-                
+                filterTaskList() {
+                    //renvoie la liste sans les taches complétées ou toute la la liste
+                    if(this.filterListe){
+                        this.filterButtonText = "Afficher toutes les tâches";
+                        return this.tasks.filter(task => !task.completed);
+                    }
+                    else{
+                        this.filterButtonText = "Afficher les tâches non complétées";
+                        return this.tasks;
+                    }
+                    this.filterButtonText 
+
+                }
             }}
         )
     

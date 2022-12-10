@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>suite vueJS</title>
+
+    <style>
+      
+       
+    </style>
+    
+</head>
+<body>
+    <div id="container">
+        <h1>Gestion des événement volumes</h1>
+        <h2>Communication avec un component</h2>
+        <p>Etat de Vue.js: {{vueStatus}} </p>
+
+        <h3>Ajuster une icone de volume à l'aide d'un component</h3>
+            <h3 v-if="parentUserMood.length!=0" >Votre humeur est {{parentUserMood}}</h3>
+        <label> Sound level : </label>
+        <input type="number" min="0" max="3"v-model.number="soundLevel"/>
+
+        <soundicon ref="soundmodule" v-bind:level="soundLevel" v-on:volcoupe="muteVolume" v-on:volmax="maxVolume" v-on:newmood="setMood">
+        </soundicon>
+
+       
+
+    
+
+    </div>
+
+    <script src="sound-component.js"></script>
+
+   
+    
+</body>
+</html>

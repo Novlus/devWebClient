@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>suite vueJS</title>
+
+    <style>
+      
+        .red {
+            color: red;
+        }
+        .nothing
+        {
+            color: black;
+        }
+
+        .hidden
+        {
+            display: none;
+        }
+
+        
+        .clicable {
+            cursor: pointer;
+        }
+        .ascending:after {
+            content: '\25B2';
+            padding-left: 8px;
+        }
+        
+        .descending:after {
+            content: '\25BC';
+            padding-left: 8px;
+        }
+        
+
+    </style>
+    
+</head>
+<body>
+    <div id="container">
+        <h1>IMS</h1>
+
+        <p>
+            faire une interface de type envoie de IMs
+            - une section avec l'envoi du message :
+                message (140 caractères max)
+                afficher le nombre de caractères restants et changer
+                la couleur quand il en reste moins de 20
+                + destinataire (liste déroulante issue d'un tableau défini) + bouton envoi, bouton annuler
+            
+            - une section avec la liste des messages envoyés avec les colonnes:
+                date et heure (tri par défaut), destinataire, message, bouton de suppression d'un message.
+        </p>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Envoi d'un message</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea v-on:change="changementCouleur" v-bind:class= {red} class="form-control" id="message" rows="3" v-model="message" maxlength="140"></textarea>
+                            <div class="form-text">Il vous reste  <span v-model="changementCouleur" v-bind:class= {red}>{{maxCaracteres}} </span> caractères</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="destinataire" class="form-label">Destinataire</label>
+                            <select class="form-select" aria-label="Default select example" size="10" v-model="destinataire">
+                                <option v-for="destinataire in destinataires">{{destinataire.pseudo}}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <button v-on:click="ajoutListe" type="button" class="btn btn-primary">Envoyer</button>
+                                &nbsp;
+                            <button v-on:click="annuler" type="button" class="btn btn-secondary">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Liste des messages envoyés</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" v-on:click="order *= -1" v-bind:class="order === 1 ? 'descending' : 'ascending'" class="clicable">Date et heure</th>
+                                    <th scope="col">Destinataire</th>
+                                    <th scope="col">Message</th>
+                                    <th scope="col">Supprimer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(messagesUtilisateur,index) in triDate" >
+                                    <th scope="row">{{messagesUtilisateur.date.getDate()}}/{{messagesUtilisateur.date.getMonth()}}/{{messagesUtilisateur.date.getFullYear()}}&nbsp;
+                                        {{messagesUtilisateur.date.getHours()}}:{{messagesUtilisateur.date.getMinutes()}}</th>
+                                    <td>{{messagesUtilisateur.pseudoUtilisateur}}</td>
+                                    <td>{{messagesUtilisateur.messages}}</td>
+                                    <td><button v-on:click="supprimerListe(index)" type="button" class="btn btn-danger">Supprimer</button></td>
+                                </tr>
+                            </tbody>
+       
+
+    
+
+    </div>
+
+    <script>
+        var myVueApp = ({
+            data() {
+                return {
+                destinataires: [
+                    {
+                        id: 1,
+                        pseudo: 'Skinal',
+                        
+                    },
+                    {
+                        id: 2,
+                        pseudo:'Purinsu',
+                       
+                    },
+                    {
+                        id: 3,
+                        pseudo: 'SirAzurix',
+                        
+                    },
+                    {
+                        id: 4,
+                        pseudo: 'Trinity',
+                       
+
+                    },
+                    {
+                        id: 5,
+                        pseudo: 'Cliffy',
+                       
+                    },
+                    {
+                        id: 6,
+                        pseudo: 'Olas',
+                       
+                    },
+                    {
+                        id: 7,
+                        pseudo: 'Tristecératops',
+                    },
+                    {
+                        id: 8,
+                        pseudo: 'Geropard',
+                        
+                    },
+                    {
+                        id: 9,
+                        pseudo: 'Biscotte',
+                       
+                    },
+                    {
+                        id: 10,
+                        pseudo: 'Khosirey'
+                    }
+                ],
+                message: "",
+                caracteresRestants: 140,
+                variableChangeCouleur: false,
+                red : "",
+                messagesUtilisateurs: [
+                    {   
+                        id: 30,
+                        pseudoUtilisateur: 'Skinal',
+                        messages: 'Salut',
+                        date : new Date(2018,9,22),
+                        hiddenMessage: false
+                          
+                    },
+                    {
+                        id: 31,
+                        pseudoUtilisateur: 'Purinsu',
+                        messages: 'Salut',
+                        date : new Date(2018, 8, 22),
+                        hiddenMessage: false
+                    }
+                ],
+                hidden: false,
+                destinataire: "",
+                order:1,
+                filterListe: false,
+                
+
+                    
+                    
+                }
+            },
+            methods: {  
+
+                changementCouleur()
+                {
+                    if (this.message.length >= 120)
+                    {
+                        this.red= "red";
+                    }
+                    else
+                    {
+                         this.red = "";
+
+                    }
+                },
+
+                annuler()
+                {
+                    this.message = "";
+                    this.red="";
+                    this.destinataire = "";
+                },
+
+                ajoutListe()
+                {
+                   //verifier si les champs sont remplis
+                   if (this.message.length == 0 || this.destinataire == "")
+                   {
+                          alert("Veuillez remplir tous les champs");
+                   }
+                  
+                    else{
+                        //ajouter le message dans la liste des messages envoyés a un destinataire
+                        this.messagesUtilisateurs.push(
+                        {   
+                           pseudoUtilisateur: this.destinataire,
+                           messages: this.message,
+                           date : new Date()
+                        }
+                         );
+                     }
+
+                },
+
+                supprimerListe(index)
+                {
+                    
+                    //supprimer le message de la liste des messages envoyés a un destinataire
+                    this.messagesUtilisateurs.splice(index, 1);
+                    
+                },
+                
+
+                
+
+                
+               /* 
+                */
+
+            },
+            computed: { // emplacement où l'on effectue les calculs à réaliser quand l'événement onDOMready est ok.
+                
+            maxCaracteres()
+                {
+                    //calculer le nombre de caractères restants
+                    this.caracteresRestants = 140 - this.message.length;
+                    return this.caracteresRestants;
+                    
+
+                    
+                },
+
+                
+
+                triDate(){
+
+                   //trie les messages par date
+                    
+                    return this.messagesUtilisateurs.sort((a,b) => (b.date.getTime() - a.date.getTime()) * this.order); 
+                },
+
+                
+            }}
+
+            
+
+        )
+    
+    
+        Vue.createApp(myVueApp).mount('#container');
+    </script>
+    
+</body>
+</html>
